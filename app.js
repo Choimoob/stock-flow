@@ -290,11 +290,13 @@ function createNavButton(viewId, primary, secondary, activeView) {
 function createSidebar(data, activeView) {
   const aside = createElement("aside", "lnb");
   const sticky = createElement("div", "sticky-panel");
-  sticky.append(
-    createElement("p", "eyebrow", "탐색"),
-    createElement("h2", "lnb-heading", "상품별로 나눠서 보기"),
-    createElement("p", "section-text", "전체 시장을 먼저 보고, 이후 종목별로 현재 판단과 근거 URL을 내려가며 확인할 수 있게 구성했습니다.")
+
+  const brand = createElement("div", "lnb-brand");
+  brand.append(
+    createElement("p", "lnb-brand-name", data.projectTitle || "주식 flow"),
+    createElement("p", "lnb-brand-sub", "상품별로 나눠서 보는 정적 대시보드")
   );
+  sticky.appendChild(brand);
 
   const overviewGroup = createElement("div", "lnb-group");
   overviewGroup.append(createElement("p", "lnb-title", "전체"));
@@ -317,7 +319,7 @@ function createSidebar(data, activeView) {
 
   const footer = createElement("div", "lnb-footer");
   footer.append(
-    createElement("p", "card-eyebrow", "Static mode"),
+    createElement("p", "card-eyebrow", `${data.dataMode || "static snapshot"} · ${data.generatedAtKst || "-"}`),
     createElement("p", "source-note", "브라우저에서 외부 API를 직접 호출하지 않고 저장소 스냅샷만 읽습니다.")
   );
   sticky.appendChild(footer);
@@ -515,17 +517,12 @@ function renderError(message) {
 
 function renderDashboard(data) {
   const root = document.getElementById("app");
-  const modeNode = document.getElementById("data-mode");
-  const generatedAtNode = document.getElementById("generated-at");
 
-  if (!root || !modeNode || !generatedAtNode) {
+  if (!root) {
     return;
   }
 
   const activeView = normalizeView(data);
-
-  modeNode.textContent = data.dataMode || "static snapshot";
-  generatedAtNode.textContent = data.generatedAtKst || "-";
 
   const layout = createElement("div", "dashboard-layout");
   layout.appendChild(createSidebar(data, activeView));
