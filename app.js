@@ -1,10 +1,3 @@
-/*
- * Mini-SBOM
- * - Runtime dependencies: none
- * - Third-party libraries: none
- * - License exposure: no bundled open-source runtime package
- */
-
 function createElement(tag, className, text) {
   const element = document.createElement(tag);
   if (className) {
@@ -176,11 +169,7 @@ function renderError(message) {
   card.append(
     createElement("p", "section-eyebrow", "render error"),
     createElement("h2", "", "대시보드 데이터를 읽지 못했습니다."),
-    createElement(
-      "p",
-      "section-text",
-      `${message} data/latest.js가 먼저 로드됐는지, 그리고 스냅샷 파일이 정상 생성됐는지 확인해 주세요.`
-    )
+    createElement("p", "section-text", `${message} 잠시 후 새로고침해 주세요.`)
   );
   root.replaceChildren(card);
 }
@@ -281,19 +270,6 @@ function renderDashboard(data) {
   });
   checkSection.append(checkHeading, checkGrid);
 
-  const roadmapSection = createElement("section", "panel");
-  const roadmapHeading = createElement("div", "section-heading");
-  roadmapHeading.append(
-    createElement("p", "section-eyebrow", "업데이트 흐름"),
-    createElement("h2", "", "한 시간마다 수동 갱신하는 기본 루프"),
-    createElement("p", "section-text", "외부 자동수집은 별도 보안 검토 전까지 붙이지 않고, 로컬 실행 스크립트로만 갱신합니다.")
-  );
-  const roadmapList = createElement("ul", "bullet-list");
-  data.roadmap.forEach((step) => {
-    roadmapList.appendChild(createElement("li", "", step));
-  });
-  roadmapSection.append(roadmapHeading, roadmapList);
-
   const footer = createElement("p", "footer-note", data.disclaimer);
 
   root.replaceChildren(
@@ -302,7 +278,6 @@ function renderDashboard(data) {
     recommendationWrap,
     evidenceSection,
     checkSection,
-    roadmapSection,
     footer
   );
 }
