@@ -249,11 +249,30 @@ a {
 .source-card,
 .check-card,
 .scenario-card,
-.status-card {
+.status-card,
+.framework-card,
+.bucket-card,
+.key-point-card,
+.expert-card {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--surface-muted);
   padding: 16px;
+}
+
+.framework-grid,
+.bucket-grid,
+.key-points-grid,
+.expert-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.framework-grid,
+.bucket-grid,
+.key-points-grid,
+.expert-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .section-heading {
@@ -424,6 +443,45 @@ a {
 .scenario-copy {
   margin-top: 8px;
   font-size: 0.9rem;
+}
+
+.compact-grid {
+  margin-top: 12px;
+}
+
+.weight-pill,
+.signal-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.signal-positive {
+  background: var(--positive-soft);
+  color: var(--positive);
+}
+
+.signal-negative {
+  background: var(--negative-soft);
+  color: var(--negative);
+}
+
+.signal-mixed {
+  background: var(--neutral-soft);
+  color: var(--neutral);
+}
+
+.mini-label {
+  margin: 8px 0 0;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .footer-note {

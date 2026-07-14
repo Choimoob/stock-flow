@@ -91,6 +91,15 @@ def validate_sources(items: list[Any], owner: str) -> None:
             raise ValueError(f"{owner}.sources[{index}].url은 https:// 로 시작해야 합니다.")
 
 
+def validate_probability_objects(items: list[Any], owner: str) -> None:
+    for index, item in enumerate(items):
+        if not isinstance(item, dict):
+            raise ValueError(f"{owner}[{index}]는 객체여야 합니다.")
+        require_string(item, "title")
+        require_number(item, "probability")
+        require_string(item, "copy")
+
+
 def validate_snapshot(payload: dict[str, Any]) -> dict[str, Any]:
     """브라우저 렌더링 전에 필요한 필드를 모두 검증합니다."""
     normalized = copy.deepcopy(payload)
@@ -98,7 +107,34 @@ def validate_snapshot(payload: dict[str, Any]) -> dict[str, Any]:
     require_string(normalized, "projectTitle")
     require_string(normalized, "dataMode")
     require_string(normalized, "marketSummary")
+    require_string(normalized, "methodologyNote")
     require_string(normalized, "disclaimer")
+
+    analysis_framework = require_list(normalized, "analysisFramework")
+    for index, item in enumerate(analysis_framework):
+        if not isinstance(item, dict):
+            raise ValueError(f"analysisFramework[{index}]는 객체여야 합니다.")
+        require_string(item, "title")
+        require_number(item, "weightPercent")
+        require_string(item, "summary")
+
+    global_synthesis = normalized.get("globalSynthesis")
+    if not isinstance(global_synthesis, dict):
+        raise ValueError("'globalSynthesis'는 객체여야 합니다.")
+    require_string(global_synthesis, "headline")
+    require_string(global_synthesis, "summary")
+    synthesis_action = global_synthesis.get("action")
+    synthesis_direction = global_synthesis.get("direction")
+    if not isinstance(synthesis_action, dict) or not isinstance(synthesis_direction, dict):
+        raise ValueError("'globalSynthesis.action'과 'globalSynthesis.direction'은 객체여야 합니다.")
+    for key in ("accumulate", "hold", "trim"):
+        require_number(synthesis_action, key)
+    for key in ("rise", "fall", "mixed"):
+        require_number(synthesis_direction, key)
+    validate_probability_objects(require_list(global_synthesis, "scenarios"), "globalSynthesis.scenarios")
+    for index, item in enumerate(require_list(global_synthesis, "notes")):
+        if not isinstance(item, str) or not item.strip():
+            raise ValueError(f"globalSynthesis.notes[{index}]는 비어 있지 않은 문자열이어야 합니다.")
 
     portfolio = normalized.get("portfolio")
     if not isinstance(portfolio, dict):
@@ -151,19 +187,44 @@ def validate_snapshot(payload: dict[str, Any]) -> dict[str, Any]:
             if not isinstance(reason, str) or not reason.strip():
                 raise ValueError(f"recommendations[{index}].reasons[{reason_index}]는 문자열이어야 합니다.")
 
-        scenarios = require_list(item, "scenarios")
-        for scenario_index, scenario in enumerate(scenarios):
-            if not isinstance(scenario, dict):
-                raise ValueError(f"recommendations[{index}].scenarios[{scenario_index}]는 객체여야 합니다.")
-            require_string(scenario, "title")
-            require_number(scenario, "probability")
-            require_string(scenario, "copy")
+        analyst_consensus = item.get("analystConsensus")
+        if not isinstance(analyst_consensus, dict):
+            raise ValueError(f"recommendations[{index}].analystConsensus는 객체여야 합니다.")
+        for key in ("coverageCount", "bullish", "neutral", "bearish"):
+            require_number(analyst_consensus, key)
+        require_string(analyst_consensus, "summary")
+
+        key_points = require_list(item, "keyPoints")
+        for point_index, point in enumerate(key_points):
+            if not isinstance(point, dict):
+                raise ValueError(f"recommendations[{index}].keyPoints[{point_index}]는 객체여야 합니다.")
+            require_string(point, "category")
+            require_string(point, "importance")
+            require_string(point, "signal")
+            require_string(point, "summary")
+
+        expert_views = require_list(item, "expertViews")
+        for expert_index, expert in enumerate(expert_views):
+            if not isinstance(expert, dict):
+                raise ValueError(f"recommendations[{index}].expertViews[{expert_index}]는 객체여야 합니다.")
+            require_string(expert, "source")
+            require_string(expert, "stance")
+            require_string(expert, "importance")
+            require_string(expert, "summary")
+
+        validate_sources(require_list(item, "researchNotes"), f"recommendations[{index}].researchNotes")
+        validate_probability_objects(require_list(item, "scenarios"), f"recommendations[{index}].scenarios")
 
         sources = require_list(item, "sources")
         validate_sources(sources, f"recommendations[{index}]")
 
-    market_evidence = require_list(normalized, "marketEvidence")
-    validate_sources(market_evidence, "marketEvidence")
+    evidence_buckets = require_list(normalized, "evidenceBuckets")
+    for index, bucket in enumerate(evidence_buckets):
+        if not isinstance(bucket, dict):
+            raise ValueError(f"evidenceBuckets[{index}]는 객체여야 합니다.")
+        require_string(bucket, "title")
+        require_string(bucket, "summary")
+        validate_sources(require_list(bucket, "sources"), f"evidenceBuckets[{index}]")
 
     review_checklist = require_list(normalized, "reviewChecklist")
     for index, item in enumerate(review_checklist):

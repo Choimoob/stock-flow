@@ -102,6 +102,78 @@ function createStatusCard(item) {
   return card;
 }
 
+function createSignalPill(signal) {
+  const value = typeof signal === "string" ? signal : "mixed";
+  let className = "signal-mixed";
+  if (value === "positive") {
+    className = "signal-positive";
+  } else if (value === "negative") {
+    className = "signal-negative";
+  }
+  return createElement("span", `signal-pill ${className}`, value === "positive" ? "긍정" : value === "negative" ? "부정" : "혼합");
+}
+
+function createFrameworkCard(item) {
+  const card = createElement("article", "framework-card");
+  const head = createElement("div", "source-head");
+  head.append(createElement("h4", "status-title", item.title), createElement("span", "weight-pill", `${item.weightPercent}%`));
+  card.append(head, createElement("p", "source-note", item.summary));
+  return card;
+}
+
+function createEvidenceBucket(bucket) {
+  const card = createElement("article", "bucket-card");
+  card.append(
+    createElement("p", "card-eyebrow", bucket.title),
+    createElement("h4", "source-title", bucket.summary)
+  );
+
+  const sourceGrid = createElement("div", "sources-grid compact-grid");
+  bucket.sources.forEach((source) => {
+    sourceGrid.appendChild(createSourceCard(source));
+  });
+  card.appendChild(sourceGrid);
+  return card;
+}
+
+function createKeyPointCard(point) {
+  const card = createElement("article", "key-point-card");
+  const head = createElement("div", "source-head");
+  head.append(createElement("h4", "status-title", point.category), createSignalPill(point.signal));
+  card.append(head);
+  card.append(createElement("p", "mini-label", `중요도 ${point.importance}`));
+  card.append(createElement("p", "source-note", point.summary));
+  return card;
+}
+
+function createExpertViewCard(view) {
+  const card = createElement("article", "expert-card");
+  const head = createElement("div", "source-head");
+  head.append(createElement("h4", "status-title", view.source), createElement("span", "weight-pill", view.stance));
+  card.append(head);
+  card.append(createElement("p", "mini-label", `중요도 ${view.importance}`));
+  card.append(createElement("p", "source-note", view.summary));
+  return card;
+}
+
+function createConsensusPanel(consensus) {
+  const panel = createElement("div", "sub-panel");
+  panel.append(createElement("p", "card-eyebrow", "애널리스트 합의"));
+
+  const stats = createElement("div", "status-grid compact-grid");
+  [
+    { title: "커버리지 수", copy: `${consensus.coverageCount}개사` },
+    { title: "긍정", copy: `${consensus.bullish}` },
+    { title: "중립", copy: `${consensus.neutral}` },
+    { title: "부정", copy: `${consensus.bearish}` },
+  ].forEach((item) => {
+    stats.appendChild(createStatusCard(item));
+  });
+
+  panel.append(stats, createElement("p", "section-text", consensus.summary));
+  return panel;
+}
+
 function createRecommendationCard(recommendation) {
   const section = createElement("section", "recommendation-card");
 
@@ -132,15 +204,33 @@ function createRecommendationCard(recommendation) {
   );
   barGrid.append(actionPanel, directionPanel);
 
-  const insightGrid = createElement("div", "two-column");
-  const reasonsPanel = createElement("div", "sub-panel");
-  reasonsPanel.append(createElement("p", "card-eyebrow", "해석 근거"));
+  const consensusGrid = createElement("div", "two-column");
+  const reasonPanel = createElement("div", "sub-panel");
+  reasonPanel.append(createElement("p", "card-eyebrow", "종합 해석"));
   const reasonList = createElement("ul", "bullet-list");
   recommendation.reasons.forEach((reason) => {
     reasonList.appendChild(createElement("li", "", reason));
   });
-  reasonsPanel.appendChild(reasonList);
+  reasonPanel.appendChild(reasonList);
+  consensusGrid.append(reasonPanel, createConsensusPanel(recommendation.analystConsensus));
 
+  const keyPointSection = createElement("div", "sub-panel");
+  keyPointSection.append(createElement("p", "card-eyebrow", "회사별 중요 포인트"));
+  const keyPointGrid = createElement("div", "key-points-grid");
+  recommendation.keyPoints.forEach((point) => {
+    keyPointGrid.appendChild(createKeyPointCard(point));
+  });
+  keyPointSection.appendChild(keyPointGrid);
+
+  const expertSection = createElement("div", "sub-panel");
+  expertSection.append(createElement("p", "card-eyebrow", "전문가별 체크 포인트"));
+  const expertGrid = createElement("div", "expert-grid");
+  recommendation.expertViews.forEach((view) => {
+    expertGrid.appendChild(createExpertViewCard(view));
+  });
+  expertSection.appendChild(expertGrid);
+
+  const scenarioAndResearch = createElement("div", "two-column");
   const scenarioPanel = createElement("div", "sub-panel");
   scenarioPanel.append(createElement("p", "card-eyebrow", "케이스 기반 시나리오"));
   const scenarioGrid = createElement("div", "scenario-grid");
@@ -148,14 +238,25 @@ function createRecommendationCard(recommendation) {
     scenarioGrid.appendChild(createScenarioCard(scenario));
   });
   scenarioPanel.appendChild(scenarioGrid);
-  insightGrid.append(reasonsPanel, scenarioPanel);
 
-  const sourcesGrid = createElement("div", "sources-grid");
+  const researchPanel = createElement("div", "sub-panel");
+  researchPanel.append(createElement("p", "card-eyebrow", "장기 리서치·장문 문서"));
+  const researchGrid = createElement("div", "sources-grid compact-grid");
+  recommendation.researchNotes.forEach((source) => {
+    researchGrid.appendChild(createSourceCard(source));
+  });
+  researchPanel.appendChild(researchGrid);
+  scenarioAndResearch.append(scenarioPanel, researchPanel);
+
+  const sourceWrap = createElement("div", "sub-panel");
+  sourceWrap.append(createElement("p", "card-eyebrow", "최신 뉴스·공식 근거"));
+  const sourcesGrid = createElement("div", "sources-grid compact-grid");
   recommendation.sources.forEach((source) => {
     sourcesGrid.appendChild(createSourceCard(source));
   });
+  sourceWrap.appendChild(sourcesGrid);
 
-  section.append(top, barGrid, insightGrid, sourcesGrid);
+  section.append(top, barGrid, consensusGrid, keyPointSection, expertSection, scenarioAndResearch, sourceWrap);
   return section;
 }
 
@@ -169,7 +270,7 @@ function renderError(message) {
   card.append(
     createElement("p", "section-eyebrow", "render error"),
     createElement("h2", "", "대시보드 데이터를 읽지 못했습니다."),
-    createElement("p", "section-text", `${message} 잠시 후 새로고침해 주세요.`)
+    createElement("p", "section-text", `${message} data/latest.js가 먼저 갱신됐는지 확인해 주세요.`)
   );
   root.replaceChildren(card);
 }
@@ -186,11 +287,24 @@ function renderDashboard(data) {
   modeNode.textContent = data.dataMode || "static snapshot";
   generatedAtNode.textContent = data.generatedAtKst || "-";
 
+  const frameworkSection = createElement("section", "panel");
+  const frameworkHeading = createElement("div", "section-heading");
+  frameworkHeading.append(
+    createElement("p", "section-eyebrow", "분석 프레임"),
+    createElement("h2", "", "퍼센트가 어떻게 나왔는지 먼저 보여주기"),
+    createElement("p", "section-text", data.methodologyNote)
+  );
+  const frameworkGrid = createElement("div", "framework-grid");
+  data.analysisFramework.forEach((item) => {
+    frameworkGrid.appendChild(createFrameworkCard(item));
+  });
+  frameworkSection.append(frameworkHeading, frameworkGrid);
+
   const marketSection = createElement("section", "panel");
   const marketHeading = createElement("div", "section-heading");
   marketHeading.append(
     createElement("p", "section-eyebrow", "시장 스냅샷"),
-    createElement("h2", "", "지금 왜 같이 흔들리는지 먼저 보기"),
+    createElement("h2", "", "현재 뉴스와 시장 레짐"),
     createElement("p", "section-text", data.marketSummary)
   );
   const metricGrid = createElement("div", "metrics-grid");
@@ -198,6 +312,51 @@ function renderDashboard(data) {
     metricGrid.appendChild(createMetricCard(metric));
   });
   marketSection.append(marketHeading, metricGrid);
+
+  const synthesisSection = createElement("section", "panel");
+  const synthesisHeading = createElement("div", "section-heading");
+  synthesisHeading.append(
+    createElement("p", "section-eyebrow", "종합 의견"),
+    createElement("h2", "", data.globalSynthesis.headline),
+    createElement("p", "section-text", data.globalSynthesis.summary)
+  );
+
+  const synthesisGrid = createElement("div", "two-column");
+  const synthesisAction = createElement("div", "sub-panel");
+  synthesisAction.append(
+    createElement("p", "card-eyebrow", "전체 행동 퍼센트"),
+    createBarRow("추매", data.globalSynthesis.action.accumulate, "tone-accumulate"),
+    createBarRow("보유", data.globalSynthesis.action.hold, "tone-hold"),
+    createBarRow("비중축소", data.globalSynthesis.action.trim, "tone-trim")
+  );
+
+  const synthesisDirection = createElement("div", "sub-panel");
+  synthesisDirection.append(
+    createElement("p", "card-eyebrow", "전체 방향 확률"),
+    createBarRow("상승", data.globalSynthesis.direction.rise, "tone-rise"),
+    createBarRow("하락", data.globalSynthesis.direction.fall, "tone-fall"),
+    createBarRow("혼합", data.globalSynthesis.direction.mixed, "tone-mixed")
+  );
+  synthesisGrid.append(synthesisAction, synthesisDirection);
+
+  const synthesisScenario = createElement("div", "two-column");
+  const scenarioPanel = createElement("div", "sub-panel");
+  scenarioPanel.append(createElement("p", "card-eyebrow", "전체 시나리오"));
+  const scenarioGrid = createElement("div", "scenario-grid");
+  data.globalSynthesis.scenarios.forEach((scenario) => {
+    scenarioGrid.appendChild(createScenarioCard(scenario));
+  });
+  scenarioPanel.appendChild(scenarioGrid);
+
+  const notePanel = createElement("div", "sub-panel");
+  notePanel.append(createElement("p", "card-eyebrow", "지금 꼭 같이 볼 메모"));
+  const noteList = createElement("ul", "bullet-list");
+  data.globalSynthesis.notes.forEach((item) => {
+    noteList.appendChild(createElement("li", "", item));
+  });
+  notePanel.appendChild(noteList);
+  synthesisScenario.append(scenarioPanel, notePanel);
+  synthesisSection.append(synthesisHeading, synthesisGrid, synthesisScenario);
 
   const portfolioSection = createElement("section", "panel");
   const portfolioHeading = createElement("div", "section-heading");
@@ -247,13 +406,13 @@ function renderDashboard(data) {
   const evidenceSection = createElement("section", "panel");
   const evidenceHeading = createElement("div", "section-heading");
   evidenceHeading.append(
-    createElement("p", "section-eyebrow", "시장 근거 URL"),
-    createElement("h2", "", "뉴스와 공식 페이지 링크"),
-    createElement("p", "section-text", "브라우저에서 외부를 재수집하지 않고, 검토된 링크만 정적으로 노출합니다.")
+    createElement("p", "section-eyebrow", "근거 버킷"),
+    createElement("h2", "", "현재 뉴스, 공식 문서, 리서치 자료를 층으로 보기"),
+    createElement("p", "section-text", "이제는 기사 링크만 모으는 것이 아니라, 어떤 층의 근거인지 분리해서 보는 구조입니다.")
   );
-  const evidenceGrid = createElement("div", "sources-grid");
-  data.marketEvidence.forEach((source) => {
-    evidenceGrid.appendChild(createSourceCard(source));
+  const evidenceGrid = createElement("div", "bucket-grid");
+  data.evidenceBuckets.forEach((bucket) => {
+    evidenceGrid.appendChild(createEvidenceBucket(bucket));
   });
   evidenceSection.append(evidenceHeading, evidenceGrid);
 
@@ -270,14 +429,30 @@ function renderDashboard(data) {
   });
   checkSection.append(checkHeading, checkGrid);
 
+  const roadmapSection = createElement("section", "panel");
+  const roadmapHeading = createElement("div", "section-heading");
+  roadmapHeading.append(
+    createElement("p", "section-eyebrow", "업데이트 흐름"),
+    createElement("h2", "", "지금은 템플릿을 강화했고, 다음엔 데이터 층을 늘리기"),
+    createElement("p", "section-text", "현재 페이지는 20년 누적 데이터가 아니라, 그 데이터를 담기 위한 구조까지 넓힌 버전입니다.")
+  );
+  const roadmapList = createElement("ul", "bullet-list");
+  data.roadmap.forEach((step) => {
+    roadmapList.appendChild(createElement("li", "", step));
+  });
+  roadmapSection.append(roadmapHeading, roadmapList);
+
   const footer = createElement("p", "footer-note", data.disclaimer);
 
   root.replaceChildren(
+    frameworkSection,
     marketSection,
+    synthesisSection,
     portfolioSection,
     recommendationWrap,
     evidenceSection,
     checkSection,
+    roadmapSection,
     footer
   );
 }
@@ -290,7 +465,7 @@ function bootstrap() {
     return;
   }
 
-  if (!Array.isArray(data.marketMetrics) || !Array.isArray(data.recommendations)) {
+  if (!Array.isArray(data.marketMetrics) || !Array.isArray(data.recommendations) || !Array.isArray(data.analysisFramework)) {
     renderError("스냅샷 형식이 예상과 다릅니다.");
     return;
   }
