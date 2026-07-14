@@ -1,0 +1,24 @@
+# Local clutter
+.DS_Store
+Thumbs.db
+
+# Secrets and certificates
+.env*
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Logs and temporary files
+*.log
+tmp/
+temp/
+
+# Editor directories
+.idea/
+.vscode/

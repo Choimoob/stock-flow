@@ -1,0 +1,239 @@
+{
+  "projectTitle": "주식 flow",
+  "dataMode": "static snapshot / manual refresh",
+  "marketSummary": "미국 증시와 반도체 섹터가 함께 눌릴 때는 종목 개별 뉴스보다 섹터 분위기와 비중 리스크를 먼저 보는 편이 안전합니다.",
+  "portfolio": {
+    "totalInvestedKrw": 10459152,
+    "totalMarketValueKrw": 8883361,
+    "totalProfitLossPercent": -15.06,
+    "totalProfitLossKrw": -1575791,
+    "summaryNote": "STX와 SNDK 집중 비중이 높아서 행동 추천은 보수적으로 계산됩니다.",
+    "warnings": [
+      "STX와 SNDK 합산 비중이 약 79.2%로 매우 높습니다.",
+      "종목 전망이 괜찮아도 행동 추천은 비중 관리 때문에 더 보수적으로 계산해야 합니다.",
+      "메모리·스토리지 섹터가 동반 조정 중이라 종목 단독 호재가 단기에 묻힐 수 있습니다."
+    ],
+    "positions": [
+      {
+        "ticker": "STX",
+        "company": "Seagate",
+        "marketValueKrw": 4310836,
+        "profitLossPercent": -14.56,
+        "weightPercent": 48.5
+      },
+      {
+        "ticker": "SNDK",
+        "company": "Sandisk",
+        "marketValueKrw": 2730576,
+        "profitLossPercent": -26.11,
+        "weightPercent": 30.7
+      },
+      {
+        "ticker": "SKHY",
+        "company": "SK hynix ADR",
+        "marketValueKrw": 957718,
+        "profitLossPercent": 3.25,
+        "weightPercent": 10.8
+      },
+      {
+        "ticker": "AMD",
+        "company": "AMD",
+        "marketValueKrw": 652847,
+        "profitLossPercent": 11.44,
+        "weightPercent": 7.3
+      },
+      {
+        "ticker": "NVDA",
+        "company": "NVIDIA",
+        "marketValueKrw": 231381,
+        "profitLossPercent": 13.41,
+        "weightPercent": 2.6
+      }
+    ]
+  },
+  "marketMetrics": [
+    {
+      "label": "S&P 500",
+      "value": "7,515.34",
+      "move": "-0.8%",
+      "note": "2026-07-13 마감 기준"
+    },
+    {
+      "label": "Nasdaq",
+      "value": "25,873.18",
+      "move": "-1.6%",
+      "note": "기술주와 반도체가 함께 약세"
+    },
+    {
+      "label": "Dow",
+      "value": "52,498.64",
+      "move": "-0.3%",
+      "note": "기술주 대비 상대적으로 완만"
+    },
+    {
+      "label": "SOX",
+      "value": "12,431.09",
+      "move": "-4.1%",
+      "note": "메모리·스토리지 종목 동반 조정"
+    }
+  ],
+  "recommendations": [
+    {
+      "ticker": "STX",
+      "company": "Seagate",
+      "dominant": "보유 우세",
+      "headline": "업사이드는 남아 있지만 계좌 내 비중이 너무 커서 공격적 추매보다 보유 중심이 더 합리적입니다.",
+      "action": {
+        "accumulate": 12,
+        "hold": 58,
+        "trim": 30
+      },
+      "direction": {
+        "rise": 56,
+        "fall": 44,
+        "mixed": 24
+      },
+      "reasons": [
+        "최근 애널리스트 상향과 장기 저장장치 수요 논리는 아직 유효합니다.",
+        "다만 현재 계좌 내 비중이 약 48.5%라서 좋은 종목이어도 추가 집중은 리스크가 큽니다.",
+        "섹터 전체가 흔들리는 장에서는 종목 단독 호재가 단기에 묻힐 수 있습니다."
+      ],
+      "scenarios": [
+        {
+          "title": "Bull case",
+          "probability": 30,
+          "copy": "실적 시즌에서 AI·클라우드 저장 수요가 재확인되고 추가 목표가 상향이 나오면 반등 폭이 커질 수 있습니다."
+        },
+        {
+          "title": "Base case",
+          "probability": 45,
+          "copy": "장기 논리는 유지되지만 섹터 약세 때문에 주가는 횡보 또는 제한적 반등에 머무를 가능성이 큽니다."
+        },
+        {
+          "title": "Bear case",
+          "probability": 25,
+          "copy": "SOX 추가 하락과 투자심리 냉각이 겹치면 실적 전까지 다시 눌릴 수 있습니다."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Seagate Stock Rises After Analyst Upgrades To Buy",
+          "publisher": "Investor's Business Daily",
+          "publishedOn": "2026-07-10",
+          "url": "https://www.investors.com/news/technology/seagate-stock-upgrade-western-digital-wells-fargo/",
+          "note": "Wells Fargo 상향과 목표가 조정 보도"
+        },
+        {
+          "title": "Seagate Analyst Coverage",
+          "publisher": "Seagate IR",
+          "publishedOn": "accessed 2026-07-14",
+          "url": "https://investors.seagate.com/stock-information/analyst-coverage/default.aspx",
+          "note": "공식 애널리스트 커버리지 페이지"
+        }
+      ]
+    },
+    {
+      "ticker": "SNDK",
+      "company": "Sandisk",
+      "dominant": "비중축소 우세",
+      "headline": "애널리스트 기대는 강하지만 현재 손실률과 계좌 비중을 같이 보면 추가 추매보다 비중 조절이 더 안전합니다.",
+      "action": {
+        "accumulate": 6,
+        "hold": 41,
+        "trim": 53
+      },
+      "direction": {
+        "rise": 54,
+        "fall": 46,
+        "mixed": 23
+      },
+      "reasons": [
+        "최근 급락에도 강세 목표가가 유지되거나 상향된 사례가 보도됐습니다.",
+        "다만 계좌 내 비중이 약 30.7%이고 변동성이 커서 손실 확대 구간을 다시 맞을 수 있습니다.",
+        "실적과 Investor Day 전에는 기대치 미스만으로도 변동성이 크게 확대될 수 있습니다."
+      ],
+      "scenarios": [
+        {
+          "title": "Bull case",
+          "probability": 32,
+          "copy": "실적과 Investor Day에서 장기 수익성 가시성이 확인되면 급락 후 재평가가 나올 수 있습니다."
+        },
+        {
+          "title": "Base case",
+          "probability": 38,
+          "copy": "낙관론과 실적 기대가 공존하지만 단기 변동성이 커서 넓은 박스권이 이어질 가능성이 큽니다."
+        },
+        {
+          "title": "Bear case",
+          "probability": 30,
+          "copy": "기대가 너무 높아진 상태라 가이던스가 조금만 약해도 추가 급락이 나올 수 있습니다."
+        }
+      ],
+      "sources": [
+        {
+          "title": "Sandisk's stock is plunging, but some analysts are getting even more bullish",
+          "publisher": "MarketWatch",
+          "publishedOn": "2026-07-13",
+          "url": "https://www.marketwatch.com/story/sandisks-stock-is-plunging-but-some-analysts-are-getting-even-more-bullish-cba3472f",
+          "note": "급락에도 강세 목표가가 유지·상향된다는 보도"
+        },
+        {
+          "title": "Sandisk Q4/FY2026 Results and Investor Day Announcement",
+          "publisher": "Sandisk IR",
+          "publishedOn": "2026-07-09",
+          "url": "https://investor.sandisk.com/news-releases/news-release-details/sandisk-report-fiscal-fourth-quarter-and-fiscal-year-2026",
+          "note": "2026-08-05 실적, 2026-08-13 Investor Day 공식 일정"
+        },
+        {
+          "title": "Sandisk Analyst Coverage",
+          "publisher": "Sandisk IR",
+          "publishedOn": "accessed 2026-07-14",
+          "url": "https://investor.sandisk.com/stock-information/analyst-coverage",
+          "note": "공식 애널리스트 커버리지 페이지"
+        }
+      ]
+    }
+  ],
+  "marketEvidence": [
+    {
+      "title": "How major US stock indexes fared Monday 7/13/2026",
+      "publisher": "AP News",
+      "publishedOn": "2026-07-13",
+      "url": "https://apnews.com/article/84784dd049267a58ac547d8a1c7fcd02",
+      "note": "S&P 500, Nasdaq, Dow 마감 요약"
+    },
+    {
+      "title": "Chip stocks fall after SK Hynix's selloff",
+      "publisher": "MarketWatch",
+      "publishedOn": "2026-07-13",
+      "url": "https://www.marketwatch.com/livecoverage/stock-market-today-dow-jones-s-p-500-nasdaq-oil-prices-us-iran-exchange-strikes/card/chip-stocks-fall-after-sk-hynix-s-selloff-Bsx21LRVGymWVeQf3613",
+      "note": "반도체와 메모리 섹터 동반 약세 배경"
+    }
+  ],
+  "reviewChecklist": [
+    {
+      "title": "비중 상한 먼저 정하기",
+      "copy": "좋은 종목이어도 한 종목 또는 한 섹터 비중 상한이 없으면 손실이 계좌 전체를 끌고 갑니다."
+    },
+    {
+      "title": "실적 전후를 분리해서 보기",
+      "copy": "실적 전 추매와 실적 후 추매는 리스크가 다르므로 행동 규칙을 따로 잡는 편이 안전합니다."
+    },
+    {
+      "title": "애널리스트 상향과 실적 체력을 구분하기",
+      "copy": "목표가 상향은 심리를 개선하지만, 결국 주가를 지탱하는 것은 실적과 가이던스입니다."
+    },
+    {
+      "title": "섹터 동조화 확인하기",
+      "copy": "STX와 SNDK는 메모리·스토리지 흐름과 함께 흔들릴 수 있어 종목 뉴스만 보면 오판할 수 있습니다."
+    }
+  ],
+  "roadmap": [
+    "1단계: sample_input.json을 고치고 update_snapshot.py를 실행해 latest 파일을 갱신",
+    "2단계: 같은 저장소의 index.html이 새 latest.js를 즉시 반영",
+    "3단계: 외부 자동수집은 소스 허용목록과 보안 검토가 끝난 뒤 별도 추가"
+  ],
+  "disclaimer": "주의: 이 퍼센트는 공개 뉴스·애널리스트 동향·포트폴리오 집중도를 조합한 가정형 판단 보조 지표이며 투자 확정 조언이 아닙니다.",
+  "generatedAtKst": "2026-07-14 12:26:46 KST",
+  "generatedBy": "scripts/update_snapshot.py"
+}

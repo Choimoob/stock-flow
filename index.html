@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'; upgrade-insecure-requests"
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="color-scheme" content="dark only" />
+    <meta
+      name="description"
+      content="추천 퍼센트, 시나리오, 근거 URL을 함께 보는 미국주식 정적 대시보드"
+    />
+    <title>주식 flow</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="data/latest.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">주식 flow · static dashboard</p>
+          <h1>추천 퍼센트와 근거를 같이 보는 미국주식 판단 화면</h1>
+          <p class="hero-text">
+            이 버전은 순수 정적 파일만 사용합니다. 브라우저에서 외부 뉴스나 금융 API를 직접 호출하지 않고,
+            저장소 안의 최신 스냅샷 데이터만 읽습니다.
+          </p>
+        </div>
+        <div class="hero-side">
+          <div class="hero-card">
+            <span>Data mode</span>
+            <strong id="data-mode">static snapshot</strong>
+          </div>
+          <div class="hero-card warning">
+            <span>Security mode</span>
+            <strong>env, pem, API 키 없이 운영</strong>
+          </div>
+          <div class="hero-card">
+            <span>Updated</span>
+            <strong id="generated-at">-</strong>
+          </div>
+        </div>
+      </header>
+
+      <main id="app" class="content" aria-live="polite"></main>
+    </div>
+  </body>
+</html>
