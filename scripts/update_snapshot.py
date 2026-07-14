@@ -81,6 +81,12 @@ def require_list(data: dict[str, Any], key: str) -> list[Any]:
     return value
 
 
+def validate_string_list(items: list[Any], owner: str) -> None:
+    for index, item in enumerate(items):
+        if not isinstance(item, str) or not item.strip():
+            raise ValueError(f"{owner}[{index}]는 비어 있지 않은 문자열이어야 합니다.")
+
+
 def validate_sources(items: list[Any], owner: str) -> None:
     for index, item in enumerate(items):
         if not isinstance(item, dict):
@@ -132,32 +138,28 @@ def validate_snapshot(payload: dict[str, Any]) -> dict[str, Any]:
     for key in ("rise", "fall", "mixed"):
         require_number(synthesis_direction, key)
     validate_probability_objects(require_list(global_synthesis, "scenarios"), "globalSynthesis.scenarios")
-    for index, item in enumerate(require_list(global_synthesis, "notes")):
-        if not isinstance(item, str) or not item.strip():
-            raise ValueError(f"globalSynthesis.notes[{index}]는 비어 있지 않은 문자열이어야 합니다.")
+    validate_string_list(require_list(global_synthesis, "notes"), "globalSynthesis.notes")
 
     portfolio = normalized.get("portfolio")
-    if not isinstance(portfolio, dict):
-        raise ValueError("'portfolio'는 객체여야 합니다.")
-    require_number(portfolio, "totalInvestedKrw")
-    require_number(portfolio, "totalMarketValueKrw")
-    require_number(portfolio, "totalProfitLossPercent")
-    require_number(portfolio, "totalProfitLossKrw")
-    require_string(portfolio, "summaryNote")
+    if portfolio is not None:
+        if not isinstance(portfolio, dict):
+            raise ValueError("'portfolio'는 객체여야 합니다.")
+        require_number(portfolio, "totalInvestedKrw")
+        require_number(portfolio, "totalMarketValueKrw")
+        require_number(portfolio, "totalProfitLossPercent")
+        require_number(portfolio, "totalProfitLossKrw")
+        require_string(portfolio, "summaryNote")
 
-    warnings = require_list(portfolio, "warnings")
-    for index, item in enumerate(warnings):
-        if not isinstance(item, str) or not item.strip():
-            raise ValueError(f"portfolio.warnings[{index}]는 비어 있지 않은 문자열이어야 합니다.")
+        validate_string_list(require_list(portfolio, "warnings"), "portfolio.warnings")
 
-    positions = require_list(portfolio, "positions")
-    for index, item in enumerate(positions):
-        if not isinstance(item, dict):
-            raise ValueError(f"portfolio.positions[{index}]는 객체여야 합니다.")
-        for key in ("ticker", "company"):
-            require_string(item, key)
-        for key in ("marketValueKrw", "profitLossPercent", "weightPercent"):
-            require_number(item, key)
+        positions = require_list(portfolio, "positions")
+        for index, item in enumerate(positions):
+            if not isinstance(item, dict):
+                raise ValueError(f"portfolio.positions[{index}]는 객체여야 합니다.")
+            for key in ("ticker", "company"):
+                require_string(item, key)
+            for key in ("marketValueKrw", "profitLossPercent", "weightPercent"):
+                require_number(item, key)
 
     metrics = require_list(normalized, "marketMetrics")
     for index, item in enumerate(metrics):
@@ -170,7 +172,7 @@ def validate_snapshot(payload: dict[str, Any]) -> dict[str, Any]:
     for index, item in enumerate(recommendations):
         if not isinstance(item, dict):
             raise ValueError(f"recommendations[{index}]는 객체여야 합니다.")
-        for key in ("ticker", "company", "dominant", "headline"):
+        for key in ("ticker", "group", "company", "focusLabel", "dominant", "headline"):
             require_string(item, key)
 
         action = item.get("action")
@@ -182,17 +184,17 @@ def validate_snapshot(payload: dict[str, Any]) -> dict[str, Any]:
         for key in ("rise", "fall", "mixed"):
             require_number(direction, key)
 
-        reasons = require_list(item, "reasons")
-        for reason_index, reason in enumerate(reasons):
-            if not isinstance(reason, str) or not reason.strip():
-                raise ValueError(f"recommendations[{index}].reasons[{reason_index}]는 문자열이어야 합니다.")
+        validate_string_list(require_list(item, "reasons"), f"recommendations[{index}].reasons")
 
         analyst_consensus = item.get("analystConsensus")
         if not isinstance(analyst_consensus, dict):
             raise ValueError(f"recommendations[{index}].analystConsensus는 객체여야 합니다.")
-        for key in ("coverageCount", "bullish", "neutral", "bearish"):
-            require_number(analyst_consensus, key)
+        require_string(analyst_consensus, "signal")
         require_string(analyst_consensus, "summary")
+        validate_string_list(
+            require_list(analyst_consensus, "highlights"),
+            f"recommendations[{index}].analystConsensus.highlights",
+        )
 
         key_points = require_list(item, "keyPoints")
         for point_index, point in enumerate(key_points):
@@ -233,10 +235,7 @@ def validate_snapshot(payload: dict[str, Any]) -> dict[str, Any]:
         require_string(item, "title")
         require_string(item, "copy")
 
-    roadmap = require_list(normalized, "roadmap")
-    for index, item in enumerate(roadmap):
-        if not isinstance(item, str) or not item.strip():
-            raise ValueError(f"roadmap[{index}]는 문자열이어야 합니다.")
+    validate_string_list(require_list(normalized, "roadmap"), "roadmap")
 
     return normalized
 
