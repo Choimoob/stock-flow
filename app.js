@@ -495,7 +495,7 @@ function buildRecommendationContext(data, recommendation) {
 }
 
 function buildCompanyContent(data, recommendation) {
-  return [buildRecommendationContext(data, recommendation), buildRecommendationCard(recommendation), buildFooter(data)];
+  return [buildRecommendationContext(data, recommendation), createRecommendationCard(recommendation), buildFooter(data)];
 }
 
 function renderError(message) {
