@@ -535,6 +535,117 @@ a {
   background: var(--muted);
 }
 
+.outlook-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.outlook-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.outlook-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.outlook-legend-swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.outlook-swatch-bull {
+  background: var(--positive);
+}
+
+.outlook-swatch-base {
+  background: var(--neutral);
+}
+
+.outlook-swatch-bear {
+  background: var(--negative);
+}
+
+.outlook-chart-wrap {
+  width: 100%;
+}
+
+.outlook-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  font-family: var(--font-body);
+}
+
+.outlook-grid {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.outlook-area {
+  fill: var(--neutral-soft);
+  stroke: none;
+}
+
+.outlook-line {
+  fill: none;
+  stroke-width: 2;
+}
+
+.outlook-line-bull {
+  stroke: var(--positive);
+}
+
+.outlook-line-base {
+  stroke: var(--neutral);
+  stroke-dasharray: 4 3;
+}
+
+.outlook-line-bear {
+  stroke: var(--negative);
+}
+
+.outlook-dot-bull {
+  fill: var(--positive);
+}
+
+.outlook-dot-base {
+  fill: var(--neutral);
+}
+
+.outlook-dot-bear {
+  fill: var(--negative);
+}
+
+.outlook-endpoint-label {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.outlook-label-bull {
+  fill: var(--positive);
+}
+
+.outlook-label-base {
+  fill: var(--neutral);
+}
+
+.outlook-label-bear {
+  fill: var(--negative);
+}
+
+.outlook-axis-label {
+  fill: var(--muted);
+  font-size: 10px;
+}
+
 .overview-card {
   display: grid;
   gap: 11px;

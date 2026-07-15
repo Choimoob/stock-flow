@@ -34,6 +34,122 @@ function createBarRow(label, value, toneClass) {
   return wrapper;
 }
 
+function scaleOutlookValue(value, min, max, rangeBottom, rangeTop) {
+  if (max === min) {
+    return (rangeTop + rangeBottom) / 2;
+  }
+  const ratio = (value - min) / (max - min);
+  return rangeBottom - ratio * (rangeBottom - rangeTop);
+}
+
+function buildOutlookPath(values, xs, min, max, rangeBottom, rangeTop) {
+  return values
+    .map((value, index) => {
+      const x = xs[index];
+      const y = scaleOutlookValue(value, min, max, rangeBottom, rangeTop).toFixed(1);
+      return `${index === 0 ? "M" : "L"} ${x.toFixed(1)} ${y}`;
+    })
+    .join(" ");
+}
+
+function createOutlookChart(outlook) {
+  const width = 560;
+  const height = 200;
+  const chartTop = 16;
+  const chartBottom = height - 26;
+  const padX = 6;
+
+  const horizons = outlook.horizons;
+  const count = horizons.length;
+  const xs = horizons.map((_, index) => padX + (index * (width - padX * 2)) / (count - 1));
+
+  const allValues = [...outlook.scenarios.bull, ...outlook.scenarios.base, ...outlook.scenarios.bear];
+  const rawMin = Math.min(...allValues);
+  const rawMax = Math.max(...allValues);
+  const cushion = Math.max(4, (rawMax - rawMin) * 0.12);
+  const min = Math.floor(rawMin - cushion);
+  const max = Math.ceil(rawMax + cushion);
+
+  const bullPath = buildOutlookPath(outlook.scenarios.bull, xs, min, max, chartBottom, chartTop);
+  const basePath = buildOutlookPath(outlook.scenarios.base, xs, min, max, chartBottom, chartTop);
+  const bearPath = buildOutlookPath(outlook.scenarios.bear, xs, min, max, chartBottom, chartTop);
+  const baseArea = `${basePath} L ${xs[count - 1].toFixed(1)} ${chartBottom} L ${xs[0].toFixed(1)} ${chartBottom} Z`;
+
+  const gridLines = [0, 1, 2, 3]
+    .map((step) => {
+      const y = (chartTop + (step * (chartBottom - chartTop)) / 3).toFixed(1);
+      return `<line x1="${padX}" y1="${y}" x2="${width - padX}" y2="${y}" class="outlook-grid" />`;
+    })
+    .join("");
+
+  const axisLabels = horizons
+    .map((label, index) => {
+      const anchor = index === 0 ? "start" : index === count - 1 ? "end" : "middle";
+      return `<text x="${xs[index].toFixed(1)}" y="${height - 6}" text-anchor="${anchor}" class="outlook-axis-label">${label}</text>`;
+    })
+    .join("");
+
+  function endpoint(values, key) {
+    const x = xs[count - 1];
+    const y = scaleOutlookValue(values[count - 1], min, max, chartBottom, chartTop);
+    return (
+      `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5" class="outlook-dot-${key}" />` +
+      `<text x="${(x - 7).toFixed(1)}" y="${(y - 7).toFixed(1)}" text-anchor="end" class="outlook-endpoint-label outlook-label-${key}">${values[count - 1]}</text>`
+    );
+  }
+
+  const svgMarkup = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="시나리오별 전망 지수 추이" class="outlook-svg" preserveAspectRatio="xMidYMid meet">
+    ${gridLines}
+    <path d="${baseArea}" class="outlook-area"></path>
+    <path d="${bearPath}" class="outlook-line outlook-line-bear"></path>
+    <path d="${bullPath}" class="outlook-line outlook-line-bull"></path>
+    <path d="${basePath}" class="outlook-line outlook-line-base"></path>
+    ${endpoint(outlook.scenarios.bear, "bear")}
+    ${endpoint(outlook.scenarios.bull, "bull")}
+    ${endpoint(outlook.scenarios.base, "base")}
+    ${axisLabels}
+  </svg>`;
+
+  const wrapper = createElement("div", "outlook-chart-wrap");
+  wrapper.innerHTML = svgMarkup;
+  return wrapper;
+}
+
+function createOutlookLegendItem(label, key) {
+  const item = createElement("span", "outlook-legend-item");
+  item.append(createElement("span", `outlook-legend-swatch outlook-swatch-${key}`), createElement("span", "", label));
+  return item;
+}
+
+function createOutlookPanel(outlook) {
+  const panel = createElement("div", "sub-panel outlook-panel");
+  const head = createElement("div", "source-head");
+  head.append(createElement("p", "card-eyebrow", "재무 기반 시나리오 전망"), createElement("span", "mini-label", `기준일 ${outlook.asOf}`));
+  panel.append(head, createElement("p", "source-note", outlook.basis));
+
+  const legend = createElement("div", "outlook-legend");
+  legend.append(
+    createOutlookLegendItem(`Bull · ${outlook.unit}`, "bull"),
+    createOutlookLegendItem("Base", "base"),
+    createOutlookLegendItem("Bear", "bear")
+  );
+  panel.append(legend, createOutlookChart(outlook));
+
+  const fundamentalsList = createElement("ul", "bullet-list compact-list");
+  outlook.fundamentals.forEach((item) => {
+    fundamentalsList.appendChild(createElement("li", "", item));
+  });
+  panel.appendChild(fundamentalsList);
+
+  const sourceGrid = createElement("div", "sources-grid compact-grid");
+  outlook.sources.forEach((source) => {
+    sourceGrid.appendChild(createSourceCard(source));
+  });
+  panel.appendChild(sourceGrid);
+
+  return panel;
+}
+
 function createMetricCard(metric) {
   const card = createElement("article", "metric-card");
   const title = createElement("p", "card-eyebrow", metric.label || "-");
@@ -230,7 +346,13 @@ function createRecommendationCard(recommendation) {
   });
   sourceWrap.appendChild(sourcesGrid);
 
-  section.append(top, barGrid, consensusGrid, keyPointSection, expertSection, scenarioAndResearch, sourceWrap);
+  const sections = [top, barGrid];
+  if (recommendation.outlook) {
+    sections.push(createOutlookPanel(recommendation.outlook));
+  }
+  sections.push(consensusGrid, keyPointSection, expertSection, scenarioAndResearch, sourceWrap);
+
+  section.append(...sections);
   return section;
 }
 

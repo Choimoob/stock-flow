@@ -239,7 +239,64 @@ window.STOCK_FLOW_DATA = {
           "url": "https://www.investors.com/news/technology/seagate-stock-stx-earnings-july-2025/",
           "note": "실적 호조에도 기대치 부담이 주가를 누를 수 있다는 장문 참고 기사"
         }
-      ]
+      ],
+      "outlook": {
+        "asOf": "2026-07-14",
+        "basis": "Q3 FY2026 실적과 Q4 FY2026 가이던스를 바탕으로 AI가 추정한 방향성 시나리오이며, 특정 매수·매도 신호가 아닙니다.",
+        "unit": "상대 지수 (현재=100)",
+        "horizons": [
+          "현재",
+          "3개월",
+          "6개월",
+          "1년",
+          "1.5년"
+        ],
+        "scenarios": {
+          "bull": [
+            100,
+            112,
+            124,
+            145,
+            165
+          ],
+          "base": [
+            100,
+            106,
+            111,
+            118,
+            125
+          ],
+          "bear": [
+            100,
+            96,
+            92,
+            88,
+            85
+          ]
+        },
+        "fundamentals": [
+          "Q3 FY2026 매출 31.0~31.1억 달러(전년比 +44%), 비GAAP 총마진 47%, 비GAAP 영업이익 전년比 2배 이상, FCF 약 10억 달러로 사상 최대 수준.",
+          "Q4 FY2026 가이던스: 매출 34.5억±1억 달러, 비GAAP EPS 5.00±0.20달러, 영업마진 40%대 초반.",
+          "경영진은 AI·클라우드 저장 수요를 근거로 FY2027까지 매출·마진 동반 성장 지속을 제시했습니다.",
+          "리스크: HDD·스토리지는 역사적으로 재고·가격 사이클이 큰 업종이라 기대치가 높아진 만큼 실적 미스에 취약합니다."
+        ],
+        "sources": [
+          {
+            "title": "Seagate Technology (STX) Q3 2026 earnings summary",
+            "publisher": "Quartr",
+            "publishedOn": "2026-05",
+            "url": "https://quartr.com/events/seagate-technology-holdings-plc-stx-q3-2026_3eaqxEyb",
+            "note": "Q3 FY2026 실적 요약 및 Q4 가이던스"
+          },
+          {
+            "title": "Seagate Technology Holdings (NasdaqGS:STX) Stock Forecast & Analyst Predictions",
+            "publisher": "Simply Wall St",
+            "publishedOn": "accessed 2026-07-14",
+            "url": "https://simplywall.st/stocks/us/tech/nasdaq-stx/seagate-technology-holdings/future",
+            "note": "장기 애널리스트 전망 컨센서스 참고"
+          }
+        ]
+      }
     },
     {
       "ticker": "SNDK",
@@ -386,7 +443,65 @@ window.STOCK_FLOW_DATA = {
           "url": "https://investor.sandisk.com/stock-information/analyst-coverage",
           "note": "공식 애널리스트 커버리지 페이지"
         }
-      ]
+      ],
+      "outlook": {
+        "asOf": "2026-07-14",
+        "basis": "Q3 FY2026 실적 서프라이즈와 Q4 FY2026 가이던스를 바탕으로 AI가 추정한 방향성 시나리오이며, 특정 매수·매도 신호가 아닙니다.",
+        "unit": "상대 지수 (현재=100)",
+        "horizons": [
+          "현재",
+          "3개월",
+          "6개월",
+          "1년",
+          "1.5년"
+        ],
+        "scenarios": {
+          "bull": [
+            100,
+            115,
+            135,
+            160,
+            180
+          ],
+          "base": [
+            100,
+            103,
+            108,
+            115,
+            120
+          ],
+          "bear": [
+            100,
+            85,
+            75,
+            65,
+            60
+          ]
+        },
+        "fundamentals": [
+          "Q3 FY2026 매출 59.5억 달러(전분기比 +97%), 순이익 36.2억 달러로 흑자 전환(전년 3분기 -13.33달러 EPS 적자에서 +24.43달러로 반전).",
+          "Q4 FY2026 가이던스: 매출 77.5억~82.5억 달러로 추가 급증 제시.",
+          "다만 FY2025 전체로는 매출 74억 달러(+10.4%)에도 순이익 -16억 달러(순마진 -22.3%) 적자였던 만큼, 최근 흑자 전환의 지속 가능성이 핵심 변수입니다.",
+          "2025-02-21 Western Digital에서 분할 상장한 이후 주가가 이미 크게 재평가돼 기대치가 높아진 상태라 변동성이 특히 큽니다.",
+          "AI 데이터센터향 엔터프라이즈 SSD 수요 급증과 다년 공급계약 기반 매출 구조 전환이 최근 실적 개선의 핵심 배경입니다."
+        ],
+        "sources": [
+          {
+            "title": "Sandisk posts $5.95B revenue and swings to profit (10-Q)",
+            "publisher": "StockTitan",
+            "publishedOn": "2026-06",
+            "url": "https://www.stocktitan.net/sec-filings/SNDK/10-q-sandisk-corp-quarterly-earnings-report-6550187d26c6.html",
+            "note": "Q3 FY2026 실적 및 흑자 전환 상세"
+          },
+          {
+            "title": "Sandisk Has Returned Over 4,000% Since Its Spinoff and the Datacenter Story Is Just Getting Started",
+            "publisher": "TIKR.com",
+            "publishedOn": "accessed 2026-07-14",
+            "url": "https://www.tikr.com/blog/sandisk-has-returned-over-4000-since-its-spinoff-and-the-datacenter-story-is-just-getting-started",
+            "note": "분할 이후 주가 재평가 배경과 데이터센터 스토리"
+          }
+        ]
+      }
     },
     {
       "ticker": "ORCL",
@@ -540,7 +655,57 @@ window.STOCK_FLOW_DATA = {
           "url": "https://investor.oracle.com/",
           "note": "공식 IR 허브"
         }
-      ]
+      ],
+      "outlook": {
+        "asOf": "2026-07-14",
+        "basis": "Q4/FY2026 실적과 FY2027 가이던스를 바탕으로 AI가 추정한 방향성 시나리오이며, 특정 매수·매도 신호가 아닙니다.",
+        "unit": "상대 지수 (현재=100)",
+        "horizons": [
+          "현재",
+          "3개월",
+          "6개월",
+          "1년",
+          "1.5년"
+        ],
+        "scenarios": {
+          "bull": [
+            100,
+            110,
+            120,
+            138,
+            155
+          ],
+          "base": [
+            100,
+            104,
+            109,
+            116,
+            122
+          ],
+          "bear": [
+            100,
+            94,
+            90,
+            85,
+            80
+          ]
+        },
+        "fundamentals": [
+          "Q4 FY2026 매출 192억 달러(+21%), 비GAAP 영업이익 86억 달러(+22%), 클라우드(IaaS+SaaS) 매출 99억 달러(+47%, IaaS +93%·SaaS +10%).",
+          "FY2026 전체 매출 674억 달러(+17%), 클라우드 매출 +39%, AI 워크로드향 인프라 수요가 성장을 견인.",
+          "FY2027 가이던스: 매출 +34%(상수환율), 비GAAP EPS 8.05달러(+18%). Q1 FY27은 매출 +27~29%, 클라우드 매출 +58~64%.",
+          "리스크: 데이터센터 대규모 투자로 단기 총마진 압박, 대규모 CapEx·자금조달 부담, 부품 원가 상승이 마진 회복 시점을 좌우합니다."
+        ],
+        "sources": [
+          {
+            "title": "Oracle Announces Record Q4 and FY 2026 Results Driven by Cloud Infrastructure & Cloud Applications",
+            "publisher": "Oracle Investor Relations",
+            "publishedOn": "2026-06-10",
+            "url": "https://investor.oracle.com/investor-news/news-details/2026/Oracle-Announces-Record-Q4-and-FY-2026-Results-Driven-by-Cloud-Infrastructure--Cloud-Applications/default.aspx",
+            "note": "Q4·FY2026 실적 및 FY2027 가이던스 공식 발표"
+          }
+        ]
+      }
     },
     {
       "ticker": "NTNX",
@@ -694,7 +859,64 @@ window.STOCK_FLOW_DATA = {
           "url": "https://www.techradar.com/pro/vmware-woes-continue-as-experts-predict-virtualization-giant-to-lose-35-percent-of-workloads-in-three-years",
           "note": "VMware 이탈 수요의 산업 배경 기사"
         }
-      ]
+      ],
+      "outlook": {
+        "asOf": "2026-07-14",
+        "basis": "Q3 FY2026 실적과 상향된 FY2026 가이던스를 바탕으로 AI가 추정한 방향성 시나리오이며, 특정 매수·매도 신호가 아닙니다.",
+        "unit": "상대 지수 (현재=100)",
+        "horizons": [
+          "현재",
+          "3개월",
+          "6개월",
+          "1년",
+          "1.5년"
+        ],
+        "scenarios": {
+          "bull": [
+            100,
+            111,
+            122,
+            140,
+            158
+          ],
+          "base": [
+            100,
+            105,
+            110,
+            117,
+            123
+          ],
+          "bear": [
+            100,
+            97,
+            93,
+            90,
+            87
+          ]
+        },
+        "fundamentals": [
+          "Q3 FY2026 매출 7.03억 달러, 순이익 7,210만 달러, 영업이익 7,050만 달러, 비GAAP 영업마진 22.3%로 기존 가이던스(16~17%)를 크게 상회.",
+          "ARR 전년比 +15%, FCF 1.97억 달러(FCF마진 28%)로 수익성 지표가 동반 개선됐습니다.",
+          "FY2026 전체 가이던스 상향: 매출 28.2억~28.4억 달러, 비GAAP 영업마진 약 22.5%, FCF 7.6억~7.8억 달러. Q4 가이던스는 매출 7.25억~7.45억 달러.",
+          "리스크: 공급망 제약과 서버 가격 상승이 매출 전환을 지연시키고 있고, 이 영향이 FY2027까지 이어질 수 있다고 경영진이 직접 언급했습니다."
+        ],
+        "sources": [
+          {
+            "title": "Nutanix Q3 2026 results: revenue $703M, ARR up 15%",
+            "publisher": "StockTitan",
+            "publishedOn": "2026-05",
+            "url": "https://www.stocktitan.net/sec-filings/NTNX/8-k-nutanix-inc-reports-material-event-c64f8b95d861.html",
+            "note": "Q3 FY2026 실적 및 FY2026 상향 가이던스"
+          },
+          {
+            "title": "Nutanix (NTNX) Q3 2026 Earnings Transcript",
+            "publisher": "The Motley Fool",
+            "publishedOn": "2026-05-27",
+            "url": "https://www.fool.com/earnings/call-transcripts/2026/05/27/nutanix-ntnx-q3-2026-earnings-transcript/",
+            "note": "공급망·서버가격 리스크 관련 경영진 코멘트"
+          }
+        ]
+      }
     },
     {
       "ticker": "ZS",
@@ -848,7 +1070,64 @@ window.STOCK_FLOW_DATA = {
           "url": "https://www.barrons.com/articles/zscaler-stock-ai-cybersecurity-e5f2695a",
           "note": "급락 이후 일부 애널리스트는 매수 기회라고 보지만, 신뢰 회복이 먼저라는 시각"
         }
-      ]
+      ],
+      "outlook": {
+        "asOf": "2026-07-14",
+        "basis": "Q3 FY2026 실적과 상향된 FY2026 가이던스를 바탕으로 AI가 추정한 방향성 시나리오이며, 특정 매수·매도 신호가 아닙니다.",
+        "unit": "상대 지수 (현재=100)",
+        "horizons": [
+          "현재",
+          "3개월",
+          "6개월",
+          "1년",
+          "1.5년"
+        ],
+        "scenarios": {
+          "bull": [
+            100,
+            108,
+            118,
+            132,
+            148
+          ],
+          "base": [
+            100,
+            102,
+            107,
+            113,
+            118
+          ],
+          "bear": [
+            100,
+            92,
+            88,
+            83,
+            80
+          ]
+        },
+        "fundamentals": [
+          "Q3 FY2026 매출 8.505억 달러(+25%), ARR 35.25억 달러(+25%), 비GAAP 영업이익 1.958억 달러(마진 23%, 사상 최고), 비GAAP EPS 1.08달러.",
+          "FY2026 전체 가이던스 상향: 매출 33.295억~33.325억 달러(+24.6~24.7%), 비GAAP 영업이익 7.55억~7.57억 달러(+약30%), EPS 4.10~4.11달러(+25%).",
+          "Q4 가이던스: 매출 8.75억~8.78억 달러, 비GAAP 영업이익 2.06억~2.08억 달러(+30~31%).",
+          "리스크: FCF마진 가이던스가 26.5~27%에서 22.8~23.3%로 하향(CapEx 증가), 영업 리더 2명 이탈, CFO가 '신중한' 가이던스 기조를 언급해 단기 실행 리스크가 있습니다."
+        ],
+        "sources": [
+          {
+            "title": "Zscaler Announces Strong Third-Quarter Fiscal 2026 Results",
+            "publisher": "Zscaler Investor Relations",
+            "publishedOn": "2026-05-27",
+            "url": "https://ir.zscaler.com/news-releases/news-release-details/zscaler-announces-strong-third-quarter-fiscal-2026-results",
+            "note": "Q3 FY2026 실적 및 FY2026 상향 가이던스 공식 발표"
+          },
+          {
+            "title": "Zscaler Inc (ZS) Q3 2026 Earnings Call Highlights: Record Operating Margins and Strategic AI Advancements",
+            "publisher": "GuruFocus",
+            "publishedOn": "2026-05-27",
+            "url": "https://www.gurufocus.com/news/8883641/zscaler-inc-zs-q3-2026-earnings-call-highlights-record-operating-margins-and-strategic-ai-advancements",
+            "note": "FCF 마진 하향, 영업 리더 이탈 등 리스크 코멘트"
+          }
+        ]
+      }
     }
   ],
   "evidenceBuckets": [
@@ -976,7 +1255,7 @@ window.STOCK_FLOW_DATA = {
     "3단계: 다음에는 실적 발표문, 주주서한, SEC filings, 애널리스트 요약을 회사별 아카이브로 누적",
     "4단계: 마지막에는 이벤트 전후 반응과 장기 시계열을 붙여 케이스 기반 퍼센트 모델을 더 정교화"
   ],
-  "disclaimer": "주의: 이 화면의 퍼센트는 2026-07-14 KST 기준 공개 자료 스냅샷을 조합한 가정형 판단 보조 지표입니다. 개인 자산 배분, 세금, 환율, 현금흐름, 투자기간은 반영하지 않았으며 개인 맞춤형 투자 자문이 아닙니다.",
-  "generatedAtKst": "2026-07-14 17:02:16 KST",
+  "disclaimer": "주의: 이 퍼센트와 시나리오 전망 지수는 공개 뉴스·재무 실적(매출·영업이익)·가이던스·애널리스트 동향·포트폴리오 집중도를 조합해 AI가 추정한 방향성 판단 보조 지표이며, 특정 매수·매도를 지시하는 신호가 아닙니다. 투자 확정 조언으로 사용하지 마세요.",
+  "generatedAtKst": "2026-07-15 09:07:06 KST",
   "generatedBy": "scripts/update_snapshot.py"
 };

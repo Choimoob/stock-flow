@@ -220,6 +220,34 @@ def validate_snapshot(payload: dict[str, Any]) -> dict[str, Any]:
         sources = require_list(item, "sources")
         validate_sources(sources, f"recommendations[{index}]")
 
+        outlook = item.get("outlook")
+        if not isinstance(outlook, dict):
+            raise ValueError(f"recommendations[{index}].outlook은 객체여야 합니다.")
+        require_string(outlook, "asOf")
+        require_string(outlook, "basis")
+        require_string(outlook, "unit")
+
+        horizons = require_list(outlook, "horizons")
+        validate_string_list(horizons, f"recommendations[{index}].outlook.horizons")
+
+        scenarios = outlook.get("scenarios")
+        if not isinstance(scenarios, dict):
+            raise ValueError(f"recommendations[{index}].outlook.scenarios는 객체여야 합니다.")
+        for key in ("bull", "base", "bear"):
+            series = require_list(scenarios, key)
+            if len(series) != len(horizons):
+                raise ValueError(
+                    f"recommendations[{index}].outlook.scenarios.{key}의 길이는 horizons와 같아야 합니다."
+                )
+            for value_index, value in enumerate(series):
+                if not isinstance(value, (int, float)):
+                    raise ValueError(
+                        f"recommendations[{index}].outlook.scenarios.{key}[{value_index}]는 숫자여야 합니다."
+                    )
+
+        validate_string_list(require_list(outlook, "fundamentals"), f"recommendations[{index}].outlook.fundamentals")
+        validate_sources(require_list(outlook, "sources"), f"recommendations[{index}].outlook")
+
     evidence_buckets = require_list(normalized, "evidenceBuckets")
     for index, bucket in enumerate(evidence_buckets):
         if not isinstance(bucket, dict):
