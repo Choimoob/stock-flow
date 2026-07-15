@@ -248,6 +248,12 @@ def validate_snapshot(payload: dict[str, Any]) -> dict[str, Any]:
         validate_string_list(require_list(outlook, "fundamentals"), f"recommendations[{index}].outlook.fundamentals")
         validate_sources(require_list(outlook, "sources"), f"recommendations[{index}].outlook")
 
+        narratives = outlook.get("scenarioNarratives")
+        if not isinstance(narratives, dict):
+            raise ValueError(f"recommendations[{index}].outlook.scenarioNarratives는 객체여야 합니다.")
+        for key in ("bull", "base", "bear"):
+            require_string(narratives, key)
+
     evidence_buckets = require_list(normalized, "evidenceBuckets")
     for index, bucket in enumerate(evidence_buckets):
         if not isinstance(bucket, dict):

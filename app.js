@@ -121,6 +121,12 @@ function createOutlookLegendItem(label, key) {
   return item;
 }
 
+function createScenarioNarrativeCard(key, label, copy) {
+  const card = createElement("article", `narrative-card narrative-${key}`);
+  card.append(createElement("p", `narrative-label narrative-label-${key}`, label), createElement("p", "narrative-copy", copy));
+  return card;
+}
+
 function createOutlookPanel(outlook) {
   const panel = createElement("div", "sub-panel outlook-panel");
   const head = createElement("div", "source-head");
@@ -140,6 +146,17 @@ function createOutlookPanel(outlook) {
     fundamentalsList.appendChild(createElement("li", "", item));
   });
   panel.appendChild(fundamentalsList);
+
+  if (outlook.scenarioNarratives) {
+    panel.appendChild(createElement("p", "card-eyebrow compact-list", "시나리오별로 이렇게 봅니다"));
+    const narrativeGrid = createElement("div", "narrative-grid");
+    narrativeGrid.append(
+      createScenarioNarrativeCard("bull", "Bull이 되려면", outlook.scenarioNarratives.bull),
+      createScenarioNarrativeCard("base", "Base(기본) 경로", outlook.scenarioNarratives.base),
+      createScenarioNarrativeCard("bear", "Bear로 갈 조건", outlook.scenarioNarratives.bear)
+    );
+    panel.appendChild(narrativeGrid);
+  }
 
   const sourceGrid = createElement("div", "sources-grid compact-grid");
   outlook.sources.forEach((source) => {
@@ -264,17 +281,19 @@ function createConsensusPanel(consensus) {
 function createRecommendationCard(recommendation) {
   const section = createElement("section", "recommendation-card");
 
-  const top = createElement("div", "recommendation-top");
-  const headingWrap = createElement("div", "");
   const meta = createElement("div", "recommendation-meta");
   meta.append(createElement("span", "section-eyebrow", recommendation.group), createElement("span", "focus-pill", recommendation.focusLabel));
+
+  const titleRow = createElement("div", "title-with-pill");
+  titleRow.append(createElement("h3", "", recommendation.company), createElement("span", "dominant-pill", recommendation.dominant));
+
+  const headingWrap = createElement("div", "");
   headingWrap.append(
     meta,
     createElement("p", "section-eyebrow", recommendation.ticker),
-    createElement("h3", "", recommendation.company),
+    titleRow,
     createElement("p", "section-text", recommendation.headline)
   );
-  top.append(headingWrap, createElement("div", "dominant-pill", recommendation.dominant));
 
   const barGrid = createElement("div", "two-column");
   const actionPanel = createElement("div", "sub-panel");
@@ -346,7 +365,7 @@ function createRecommendationCard(recommendation) {
   });
   sourceWrap.appendChild(sourcesGrid);
 
-  const sections = [top, barGrid];
+  const sections = [headingWrap, barGrid];
   if (recommendation.outlook) {
     sections.push(createOutlookPanel(recommendation.outlook));
   }
@@ -358,13 +377,10 @@ function createRecommendationCard(recommendation) {
 
 function createOverviewCard(recommendation) {
   const card = createElement("article", "overview-card");
-  const top = createElement("div", "overview-top");
-  const meta = createElement("div", "");
-  meta.append(
-    createElement("p", "card-eyebrow", `${recommendation.group} · ${recommendation.ticker}`),
-    createElement("h4", "source-title", recommendation.company)
-  );
-  top.append(meta, createElement("span", "dominant-pill", recommendation.dominant));
+  const eyebrow = createElement("p", "card-eyebrow", `${recommendation.group} · ${recommendation.ticker}`);
+
+  const titleRow = createElement("div", "title-with-pill");
+  titleRow.append(createElement("h4", "source-title", recommendation.company), createElement("span", "dominant-pill", recommendation.dominant));
 
   const summary = createElement("p", "source-note", recommendation.headline);
   const actionBars = createElement("div", "bar-list");
@@ -377,7 +393,7 @@ function createOverviewCard(recommendation) {
   const detailLink = createElement("a", "detail-link", "종목 상세 보기");
   detailLink.href = `#${recommendation.ticker.toLowerCase()}`;
 
-  card.append(top, summary, actionBars, detailLink);
+  card.append(eyebrow, titleRow, summary, actionBars, detailLink);
   return card;
 }
 
